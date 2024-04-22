@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol ParserDelegate: class {
+public protocol ParserDelegate: AnyObject {
     
     /// Called when the parser begins parsing.
     func parserDidBeginDocument(_ parser: CSV.Parser)
@@ -481,10 +481,7 @@ public struct CSV {
             
             let scanner = Scanner(string: string)
             
-            var firstLine: NSString? = nil
-            scanner.scanUpToCharacters(from: CharacterSet.newlines, into: &firstLine)
-            
-            guard let header = firstLine else {
+            guard let header = scanner.scanUpToCharacters(from: CharacterSet.newlines) else {
                 return nil
             }
             
